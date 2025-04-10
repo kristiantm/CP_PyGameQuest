@@ -17,6 +17,16 @@ class Link(pygame.sprite.Sprite):
         self.rect.center = (400, 550)
 
 
+    # Step 1 - overskriv "update" metoden her
+    def update(self) -> None:
+        key = pygame.key.get_pressed()
+
+        if key[pygame.K_LEFT]:
+            self.rect.left -= 2
+        if key[pygame.K_RIGHT]:
+            self.rect.left += 2
+
+
 # Step 2 - Initialiser Sprite og Sprite Group
 link = Link()
 
@@ -29,6 +39,8 @@ run = True
 while run:
 
     screen.fill((0, 0, 0))
+
+    player_group.update()
 
     # Step 4 - kald "draw" metoden på din Sprite gruppe
     player_group.draw(screen)
