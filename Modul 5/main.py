@@ -6,6 +6,14 @@ import pytmx
 # Sti til denne fil
 STI = os.path.dirname(__file__)
 
+def load_image(filename: str) -> pygame.Surface:
+    """
+    Indlæser et billede fra den angivne sti og returnerer det som en pygame Surface.
+    """
+    image = pygame.image.load(os.path.join(STI, filename))
+    return image
+    #return image.convert_alpha()  # Konverterer billedet til en Surface med alpha-kanal
+
 pygame.init()
 
 # Opsæt tilemap parametre
@@ -23,7 +31,7 @@ screen = pygame.display.set_mode((SCREE_WIDTH, SCREE_HEIGHT))
 class Link(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(STI + "./player.png")
+        self.image = load_image("gfx/player.png")
         self.rect = self.image.get_rect()
         self.rect.center = (400, 550)
 
@@ -74,7 +82,7 @@ player_group = pygame.sprite.Group()
 player_group.add(link)
 
 # Baggrundsgrafik indlæsning og skalering
-bg = pygame.image.load(STI + "./baggrund.png")
+bg = load_image("gfx/baggrund.png")
 bg = pygame.transform.scale(bg, (SCREE_WIDTH, SCREE_HEIGHT))
 
 # Framerate håndtering
