@@ -10,7 +10,8 @@ SCREE_WIDTH = 800
 SCREE_HEIGHT = 600
 screen = pygame.display.set_mode((SCREE_WIDTH, SCREE_HEIGHT))
 
-
+# OPGAVE 2 - SÆT TILEMAP KLASSEN IND - OG LOAD ET MAP - HUSK AT TEGNE I GAMELOOP
+# kode her
 
 # Spillerkarakter klasse der håndterer visning og bevægelse
 class Link(pygame.sprite.Sprite):
