@@ -29,28 +29,19 @@ class TiledMap:
         self.tmx_data = self.load_tmx_map(tmx_path)
     
     def load_tmx_map(self, tmx_path):
-        try:
-            tmx_data = pytmx.load_pygame(tmx_path)
-            print(f"Loaded TMX map with {len(tmx_data.layers)} layers")
-            return tmx_data
-        except Exception as e:
-            print(f"Fejl ved indlæsning af TMX fil: {e}")
-            return None
+        tmx_data = pytmx.load_pygame(tmx_path)
+        print(f"Loaded TMX map with {len(tmx_data.layers)} layers")
+        return tmx_data
     
     def draw(self, surface):
-        if not self.tmx_data:
-            return
-            
         # Loop through all tile layers (skip object layers)
         for layer in self.tmx_data.visible_layers:
             if isinstance(layer, pytmx.TiledTileLayer):
                 for x, y, gid in layer:
-                    # Make sure we're within our map bounds
-                    if x < self.map_width and y < self.map_height:
-                        # Get the tile image using gid
-                        tile = self.tmx_data.get_tile_image_by_gid(gid)
-                        if tile:
-                            surface.blit(tile, (x * self.tile_size, y * self.tile_size))
+                    # Get the tile image using gid
+                    tile = self.tmx_data.get_tile_image_by_gid(gid)
+                    if tile:
+                        surface.blit(tile, (x * self.tile_size, y * self.tile_size))
 
 # Opret en TiledMap instans
 tiled_map = TiledMap(STI + '\\testmap.tmx', MAP_WIDTH, MAP_HEIGHT)

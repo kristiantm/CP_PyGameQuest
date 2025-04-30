@@ -73,7 +73,8 @@ while running:
     for y in range(MAP_HEIGHT):
         for x in range(MAP_WIDTH):
             tile_index = tilemap[y][x]
-            screen.blit(tiles[tile_index], (x * TILE_SIZE, y * TILE_SIZE))
+            screen.blit(tiles[tile_index], 
+                        (x * TILE_SIZE, y * TILE_SIZE))
     
     # Update the display
     pygame.display.update()
