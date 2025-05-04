@@ -1,0 +1,32 @@
+{
+    "activeFile": "Modul 6/maps/level1.tmx",
+    "expandedProjectPaths": [
+        "Modul 6",
+        "Modul 6/maps",
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "Modul 6/maps/32x32_map_tile.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Modul 6/maps/level1.tmx": {
+            "scale": 1.3992708333333332,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 479.89280131020627,
+                "y": 319.8094245514777
+            }
+        }
+    },
+    "openFiles": [
+        "Modul 6/maps/32x32_map_tile.tsx",
+        "Modul 6/maps/level1.tmx"
+    ],
+    "project": "maps.tiled-project",
+    "recentFiles": [
+        "Modul 6/maps/32x32_map_tile.tsx",
+        "Modul 6/maps/level1.tmx"
+    ]
+}

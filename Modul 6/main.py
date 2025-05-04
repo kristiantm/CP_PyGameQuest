@@ -12,6 +12,7 @@ def load_image(filename: str) -> pygame.Surface:
     Indlæser et billede fra den angivne sti og returnerer det som en pygame Surface.
     """
     image = pygame.image.load(os.path.join(STI, filename))
+    image = pygame.transform.scale(image, (32, 32))  # Skalerer billedet til 32x32 pixels
     return image
     #return image.convert_alpha()  # Konverterer billedet til en Surface med alpha-kanal
 
@@ -24,16 +25,20 @@ MAP_HEIGHT = 20
 SCREEN_WIDTH = TILE_SIZE * MAP_WIDTH
 SCREEN_HEIGHT = TILE_SIZE * MAP_HEIGHT
 
-SCREE_WIDTH = 800
-SCREE_HEIGHT = 600
-screen = pygame.display.set_mode((SCREE_WIDTH, SCREE_HEIGHT))
-
-screen = pygame.display.set_mode((SCREE_WIDTH, SCREE_HEIGHT))
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 def randomCoordinate():
-    x = random.randint(0, SCREE_WIDTH)
-    y = random.randint(0, SCREE_HEIGHT)
+    x = random.randint(0, SCREEN_WIDTH)
+    y = random.randint(0, SCREEN_HEIGHT)
     return (x, y)
+
+def moveEntity(entity, x, y):
+    entity.rect.left += x
+    if tiled_map.check_collision(entity.rect):
+        entity.rect.left -= x
+    entity.rect.top += y
+    if tiled_map.check_collision(entity.rect):
+        entity.rect.top -= y
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
@@ -42,13 +47,12 @@ class Enemy(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect()
         self.rect.center = randomCoordinate()
+        while tiled_map.check_collision(self.rect):
+            self.rect.center = randomCoordinate()
 
     def update(self) -> None:
-        pass
-        # if self.image == MONSTER_1_A:
-        #     self.image = MONSTER_1_B
-        # else:
-        #     self.image = MONSTER_1_A
+        # Fjende bevægelse
+        moveEntity(self, random.randint(-2, 2), random.randint(-2, 2))
 
 # Spillerkarakter klasse der håndterer visning og bevægelse
 class Link(pygame.sprite.Sprite):
@@ -66,18 +70,28 @@ class Link(pygame.sprite.Sprite):
 
         if key[pygame.K_LEFT]:
             self.rect.left -= 2
+            if tiled_map.check_collision(self.rect):
+                self.rect.left += 2
         if key[pygame.K_RIGHT]:
             self.rect.left += 2
+            if tiled_map.check_collision(self.rect):
+                self.rect.left -= 2
         if key[pygame.K_UP]:
             self.rect.top -= 2
+            if tiled_map.check_collision(self.rect):
+                self.rect.top += 2
         if key[pygame.K_DOWN]:
             self.rect.top += 2
+            if tiled_map.check_collision(self.rect):
+                self.rect.top -= 2
 
 
         collide_with = pygame.sprite.spritecollide(self, enemy_group, False)
         if collide_with != []:
             for enemy in collide_with:
-                enemy.rect.center = randomCoordinate()
+                enemy_group.remove(enemy)
+                enemy.kill()
+                enemy_group.add(Enemy())
 
 # TiledMap klasse til at håndtere TMX maps
 class TiledMap:
@@ -86,6 +100,7 @@ class TiledMap:
         self.map_height = map_height
         self.tile_size = TILE_SIZE
         self.tmx_data = self.load_tmx_map(tmx_path)
+        self.wall_rects = self.get_wall_rects()
     
     def load_tmx_map(self, tmx_path):
         tmx_data = pytmx.load_pygame(tmx_path)
@@ -101,9 +116,43 @@ class TiledMap:
                     tile = self.tmx_data.get_tile_image_by_gid(gid)
                     if tile:
                         surface.blit(tile, (x * self.tile_size, y * self.tile_size))
-
+    
+    def get_wall_rects(self):
+        """
+        Extracts wall objects from the 'Walls' layer in the TMX map
+        and converts them to pygame.Rect objects for collision detection
+        """
+        wall_rects = []
+        
+        # Look for a layer named "Walls"
+        for layer in self.tmx_data.layers:
+            if layer.name == "Walls":
+                # Extract all objects from the Walls layer
+                for obj in layer:
+                    # Create a pygame.Rect from the object properties
+                    rect = pygame.Rect(
+                        obj.x, obj.y,
+                        obj.width, obj.height
+                    )
+                    wall_rects.append(rect)
+                
+                print(f"Loaded {len(wall_rects)} wall objects for collision")
+                break
+        
+        return wall_rects
+    
+    def check_collision(self, sprite_rect):
+        """
+        Checks if the provided sprite rectangle collides with any walls
+        Returns True if collision detected, False otherwise
+        """
+        for wall_rect in self.wall_rects:
+            if sprite_rect.colliderect(wall_rect):
+                return True
+        return False
+    
 # Opret en TiledMap instans
-tiled_map = TiledMap(STI + '\\tiles\\testmap.tmx', MAP_WIDTH, MAP_HEIGHT)
+tiled_map = TiledMap(STI + '\\maps\\level1.tmx', MAP_WIDTH, MAP_HEIGHT)
 
 # Sprite initialisering og gruppering
 link = Link()
@@ -118,7 +167,7 @@ for i in range(4):
 
 # Baggrundsgrafik indlæsning og skalering
 bg = load_image("gfx/baggrund.png")
-bg = pygame.transform.scale(bg, (SCREE_WIDTH, SCREE_HEIGHT))
+bg = pygame.transform.scale(bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # Framerate håndtering
 clock = pygame.time.Clock()
