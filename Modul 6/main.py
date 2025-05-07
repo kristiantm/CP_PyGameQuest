@@ -53,6 +53,15 @@ class Enemy(pygame.sprite.Sprite):
     def update(self) -> None:
         # Fjende bevægelse
         moveEntity(self, random.randint(-2, 2), random.randint(-2, 2))
+        if link.rect.left < self.rect.left:
+            moveEntity(self, -2, 0)
+        if link.rect.left > self.rect.left:
+            moveEntity(self, 2, 0)
+        if link.rect.top < self.rect.top:
+            moveEntity(self, 0, -2)
+        if link.rect.top > self.rect.top:
+            moveEntity(self, 0, 2)
+
 
 # Spillerkarakter klasse der håndterer visning og bevægelse
 class Link(pygame.sprite.Sprite):

@@ -59,7 +59,7 @@
   <object id="15" x="932.794" y="1.46665" width="25.6665" height="637.263"/>
   <object id="16" x="632.862" y="1.46666" width="308.731" height="24.1998"/>
   <object id="18" x="736.995" y="415.797" width="61.5996" height="96.066"/>
-  <object id="19" x="70.3995" y="69.6662" width="47.6663" height="85.0661"/>
+  <object id="19" x="70.3995" y="108.258" width="47.6663" height="46.4746"/>
  </objectgroup>
  <objectgroup id="6" name="Enemies"/>
 </map>

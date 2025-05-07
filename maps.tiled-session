@@ -1,5 +1,5 @@
 {
-    "activeFile": "Modul 6/maps/level1.tmx",
+    "activeFile": "Modul 6/maps/level2.tmx",
     "expandedProjectPaths": [
         "Modul 6",
         "Modul 6/maps",
@@ -12,21 +12,35 @@
             "scaleInEditor": 1
         },
         "Modul 6/maps/level1.tmx": {
+            "expandedObjectLayers": [
+                4
+            ],
             "scale": 1.3992708333333332,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 479.89280131020627,
-                "y": 319.8094245514777
+                "x": 368.4061639246632,
+                "y": 315.1641479937468
+            }
+        },
+        "Modul 6/maps/level2.tmx": {
+            "scale": 1.3992708333333332,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 215.4693664855207,
+                "y": 326.9560038710638
             }
         }
     },
+    "map.lastUsedFormat": "tmx",
     "openFiles": [
         "Modul 6/maps/32x32_map_tile.tsx",
-        "Modul 6/maps/level1.tmx"
+        "Modul 6/maps/level1.tmx",
+        "Modul 6/maps/level2.tmx"
     ],
     "project": "maps.tiled-project",
     "recentFiles": [
         "Modul 6/maps/32x32_map_tile.tsx",
-        "Modul 6/maps/level1.tmx"
+        "Modul 6/maps/level1.tmx",
+        "Modul 6/maps/level2.tmx"
     ]
 }
